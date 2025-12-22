@@ -32,7 +32,30 @@
                 </div>
                 <input type='text' name='search-name' id='search-name-input'
                     class='search-name-input' placeholder='Search for a movie'/>
+                <div class='filter-icon-container'>
+                    <i class="fa-solid fa-filter" id='filter-btn'></i>
+                </div>
                 <button type='submit' id='search-submit-btn' class='search-submit-btn'>Search</button>
+            
+                <div class='outer-filter-container' id='outer-filter-container'>
+                   <p class='ft_'>Filter By:</p>
+                   <label class='fyt'>Year: </label>
+                   <input class='fyi' type='text'/>
+                   <label class='ftt'>Type: </label>
+                   <select class='fti'>
+                        <option value='movie'>Movie</option>
+                        <option value='series'>Series</option>
+                        <option value='episode'>Episode</option>
+                   </select>
+                   <p class='st_'>Sort By:</p>
+                   <select class='sti'>
+                        <option value='movie'>Movie</option>
+                        <option value='series'>Series</option>
+                        <option value='episode'>Episode</option>
+                   </select>
+                   <button class='stb' type='button'>Sort</button>
+                   
+                </div>
             </form>
 
             <section class='container content-container'>
@@ -41,6 +64,26 @@
                         <i class="fa-solid fa-film"></i>
                     </div>
                     <p class='hint-message'>Start Exploring</p>
+                </div>
+            </section>
+
+            <section class='container outer-navigation-container'>
+                <div class='inner-navigation-container'>
+                    <button disabled class='navigation-btn' data-nav-id='0'>
+                        <p><i class="fa-solid fa-arrow-left" data-nav-id='0'></i></p>
+                    </button>
+                    <button disabled class='navigation-btn' data-nav-id='1'>
+                        <p data-nav-id='1'>FIRST PAGE</p>
+                    </button disabled>
+                    <div id='page'>
+                        1/?
+                    </div>
+                    <button disabled class='navigation-btn' data-nav-id='2'>
+                        <p data-nav-id='2'>LAST PAGE</p>
+                    </button>
+                    <button disabled class='navigation-btn' data-nav-id='3'>
+                        <p><i class="fa-solid fa-arrow-right" data-nav-id='3'></i></p>
+                    </button>
                 </div>
             </section>
         </main>

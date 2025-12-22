@@ -1,10 +1,4 @@
 
-
-
-1. showcase all 10 results
-- showcase all possible results
-
-
 1. search filter by year and type
 
 

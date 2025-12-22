@@ -3,15 +3,40 @@ const apiKey = '1e06bc85'
 let basicSearchResultArr = []
 let totalResults = 0
 let totalPageCount = 0
+let currentPageIdx = 1
 
 const searchForm = document.getElementById('search-form')
 const contentContainer = document.querySelector('.content-container')
+const navigationBtnArr = document.querySelectorAll('.navigation-btn')
+const outerFilterContainer = document.getElementById('outer-filter-container')
 
 
 document.addEventListener('click', function(event){
     if (event.target.dataset.imdb){
         handleReadMore(event.target.dataset.imdb)
+    } else if (event.target.dataset.navId){
+        console.log("Enter")
+        let targetPage = 0
+        switch(event.target.dataset.navId){
+            case '0':
+                targetPage = currentPageIdx - 1
+                break;
+            case '1':
+                targetPage = 1
+                break;
+            case '2':
+                targetPage = totalPageCount
+                break;
+            case '3':
+                targetPage = currentPageIdx + 1
+                break;
+            default:
+        } 
+        renderPage(targetPage)
+    } else if(event.target.id === 'filter-btn'){
+        outerFilterContainer.style.display = 'grid'
     }
+    
 })
 
 
@@ -113,10 +138,19 @@ function handleReturnedResponse(res){
 
 
 async function renderPage(pageIdx=1){
-    // Title, Year, imdbID, Type, Poster
+    navigationBtnArr.forEach(btn => btn.disabled = true)
+    contentContainer.innerHTML = `
+        <div class='film-outer-container'>
+            <div class='film-container'>
+                <img src='./images/buffering.gif' class='buffering-gif'/>
+            </div>
+            <p class='hint-message'>Finetuning the search...</p>
+        </div>
+        `
+    
     // Populate the search result with more details containing the following keyword:
     // Runtime, Genre, Plot, imdbRating 
-    let currentPageSearchResultArr = basicSearchResultArr.slice((pageIdx-1)*10,10) //Create a shallow copy
+    let currentPageSearchResultArr = basicSearchResultArr.slice((pageIdx-1)*10,(pageIdx-1)*10+10) //Create a shallow copy
     let htmlStr = ''
     for (let item of currentPageSearchResultArr){
 
@@ -151,34 +185,48 @@ async function renderPage(pageIdx=1){
 
         htmlStr += `
             <div class='card-container'>
-                    <div class='card-img-container'>
-                        <img src='${Poster}' class='card-img'
-                            onerror= "this.src='./images/no-image.png'"/>
+                <div class='card-img-container'>
+                    <img src='${Poster}' class='card-img'
+                        onerror= "this.src='./images/no-image.png'"/>
+                </div>
+                <div class='card-detail-container'>
+                    <div class='top-row'>
+                        <h2 class='card-title'>${Title}</h2>
+                        <p class='card-rating'><i class="fa-solid fa-star"></i><span>${imdbRating}</span></p>
+                        <button class='watchlist-btn'><i class="fa-solid fa-circle-plus"></i><span>Watchlist</span></button>
                     </div>
-                    <div class='card-detail-container'>
-                        <div class='top-row'>
-                            <h2 class='card-title'>${Title}</h2>
-                            <p class='card-rating'><i class="fa-solid fa-star"></i><span>${imdbRating}</span></p>
-                            <button class='watchlist-btn'><i class="fa-solid fa-circle-plus"></i><span>Watchlist</span></button>
-                        </div>
-                        <div class='second-row'>
-                            <p class='card-genre'>${Genre}</p>
-                            <p class='card-year'>Released in ${Year}</p>
-                            <p class='card-runtime'>${Runtime}</p>
-                        </div>
-                        <div class='third-row'>
-                            ${thirdRowContent}
-                        </div>
+                    <div class='second-row'>
+                        <p class='card-genre'>${Genre}</p>
+                        <p class='card-year'>Released in ${Year}</p>
+                        <p class='card-runtime'>${Runtime}</p>
+                    </div>
+                    <div class='third-row'>
+                        ${thirdRowContent}
                     </div>
                 </div>
+            </div>
         `
-
-
     }
+    document.querySelector('.content-container').innerHTML = htmlStr
     // Since currentPageSearchResultArr is a shallow copy
     // Both currentPageSearchResultArr and currentPageSearchResultArr will have its object content changed
 
-    document.querySelector('.content-container').innerHTML = htmlStr
+    
+
+    navigationBtnArr.forEach(btn => btn.disabled = false)
+    if(pageIdx === totalPageCount){
+        navigationBtnArr[2].disabled = true
+        navigationBtnArr[3].disabled = true
+    }
+    if (pageIdx === 1){
+        navigationBtnArr[0].disabled = true
+        navigationBtnArr[1].disabled = true
+    }
+
+
+    document.getElementById('page').textContent = `${pageIdx}/${totalPageCount}`
+    currentPageIdx = pageIdx
+
     
 }
 

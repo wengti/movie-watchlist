@@ -65,10 +65,12 @@ main{
     margin-bottom: 0.7em;
     text-align: center;
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     background-color: white;
     border: 1px solid gray;
     border-radius: 5px;
+    gap: 0.5em 0.2em;
 }
 
 .magnifying-glass-container{
@@ -77,9 +79,10 @@ main{
 }
 
 .search-name-input{
+    flex: 1 0 50%;
+    min-width: 0;
     height: 100%;
     border: none;
-    flex-grow: 1;
     padding-left: 10px;
 }
 
@@ -87,12 +90,67 @@ main{
     cursor: pointer;
     background-color: #E0E5EB;
     height: 100%;
-    width: 25%;
+    flex:0 0 25%;
     max-width: 200px;
     border: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
 }
+
+
+.outer-filter-container {
+    text-align: left;
+    z-index: 1;
+    flex: 1 0 100%;
+    display: grid;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+    grid-template-columns: repeat(12, 1fr);
+    grid-template-areas: 
+    "ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_"
+    "fyt fyt fyi fyi fyi ... ftt ftt fti fti fti fti"
+    "st_ st_ st_ st_ st_ st_ st_ st_ st_ st_ st_ st_"
+    "sti sti sti sti sti sti sti ... stb stb stb stb";
+}
+
+.ft_{
+    grid-area: ft_;
+}
+
+.fyt{
+    grid-area: fyt;
+}
+
+.fyi{
+    grid-area: fyi;
+}
+
+.ftt{
+    grid-area: ftt;
+}
+
+.fti{
+    grid-area: fti;
+}
+
+.st_{
+    grid-area: st_;
+}
+
+.sti{
+    grid-area: sti;
+}
+
+.stb{
+    grid-area: stb;
+}
+
+
+
+
+
+
 
 /*  Content */
 .content-container{
@@ -185,7 +243,36 @@ main{
     border: 1px solid #808080;
 }
 
+/* Navigation */
+.outer-navigation-container{
+    margin-top: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+}
 
+.inner-navigation-container{
+    display: flex;
+    gap: 0.5em;
+    height: 40px;
+    align-items: center;
+}
+
+.navigation-btn{
+    cursor: pointer;
+    height: 100%;
+    background-color: #E0E5EB;
+    border: 1px solid gray;
+    border-radius: 5px;
+}
+
+.navigation-btn:disabled{
+    cursor: not-allowed;
+}
+
+.navigation-btn:active{
+    background-color: green;
+}
 
 
 
@@ -201,6 +288,10 @@ main{
 
     .header-container{
         flex-direction: row;
+    }
+
+    .search-container{
+        flex-wrap: wrap;
     }
 }
 
