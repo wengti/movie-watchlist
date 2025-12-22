@@ -1,0 +1,165 @@
+
+const apiKey = '1e06bc85'
+let basicSearchResultArr = []
+let totalResults = 0
+let totalPageCount = 0
+
+const searchForm = document.getElementById('search-form')
+const contentContainer = document.querySelector('.content-container')
+
+
+searchForm.addEventListener('submit', handleSearchSubmit)
+
+async function handleSearchSubmit(event){
+    event.preventDefault()
+    basicSearchResultArr = []
+    totalResults = 0
+    totalPageCount = 0
+
+    const searchFormData = new FormData(searchForm)
+    
+    const searchName = searchFormData.get('search-name')
+
+    const initialUrl = `http://www.omdbapi.com/?apikey=${apiKey}&s=${searchName}`
+
+    try{
+        
+        contentContainer.innerHTML = `
+        <div class='film-outer-container'>
+            <div class='film-container'>
+                <img src='./images/buffering.gif' class='buffering-gif'/>
+            </div>
+            <p class='hint-message'>Searching...</p>
+        </div>
+        `        
+        
+        const res = await fetch(initialUrl)
+        const data = await handleReturnedResponse(res)
+        
+
+        const findTotalResponse = true
+        totalResults = handleSearchResult(data, findTotalResponse)
+        totalPageCount = Math.ceil(totalResults / 10)
+
+        // Get the basic search results
+        // Each object has the following keyword:
+        // Title, Year, imdbID, Type, Poster
+        let pageCount = 1
+        while(pageCount <= totalPageCount){
+            let basicSearchUrl = `http://www.omdbapi.com/?apikey=${apiKey}&s=${searchName}&page=${pageCount}`
+
+            const res = await fetch(basicSearchUrl)
+            const data = await handleReturnedResponse(res)
+
+            const findTotalResponse = false
+            basicSearchResultArr.push(...handleSearchResult(data, findTotalResponse))
+            
+            document.querySelector('.hint-message').textContent = `Collecting search result from Page ${pageCount} out of ${totalPageCount}`
+
+            pageCount++
+        }
+
+        for (let item of basicSearchResultArr){
+            item.Year = item.Year.slice(0,4) //Take only the first 4 digit of the year
+        }
+
+        const pageIdx = 1
+        renderPage(pageIdx)
+        
+    } catch(err) {
+        handleNullSearchResult(err)
+    }
+}
+
+function handleSearchResult(data, findTotalResponse=false){
+    if (data.Response === 'False'){
+        throw Error("Unable to find what you're looking for. Please try another search.")
+    }
+    
+    // Returned total number of pages if findTotalResponse
+    if (findTotalResponse){
+       return data.totalResults
+    } else {
+        return data.Search
+    }
+
+}
+
+function handleNullSearchResult(err){
+    contentContainer.innerHTML = `
+        <div class='film-outer-container'>
+            <div class='film-container'>
+                <i class="fa-solid fa-film"></i>
+            </div>
+            <p class='hint-message'>${err}</p>
+        </div>
+    `
+}
+
+function handleReturnedResponse(res){
+    if(!res.ok){
+        console.log(res.status)
+        throw Error("Unable to find what you're looking for. Please try another search.")
+    }
+    return res.json()
+}
+
+
+async function renderPage(pageIdx=1){
+    // Title, Year, imdbID, Type, Poster
+    // Populate the search result with more details containing the following keyword:
+    // Runtime, Genre, Plot, imdbRating 
+    let currentPageSearchResultArr = basicSearchResultArr.slice((pageIdx-1)*10,10) //Create a shallow copy
+    let htmlStr = ''
+    for (let item of currentPageSearchResultArr){
+
+        // Only perform a more detailed search if these detils have not been browsed
+        if (!item.Runtime){
+            let {imdbID} = item
+            const refinedSearchUrl = `http://www.omdbapi.com/?apikey=${apiKey}&i=${imdbID}&plot=full`
+    
+            const res = await fetch(refinedSearchUrl)
+            const data = await handleReturnedResponse(res)
+    
+            item.Runtime = data.Runtime
+            item.Genre = data.Genre
+            item.Plot = data.Plot
+            item.imdbRating = data.imdbRating
+        } 
+
+        let {Title, Year, imdbID, Type, Poster, Runtime, Genre, Plot, imdbRating} = item
+
+
+        htmlStr += `
+            <div class='card-container'>
+                    <div class='card-img-container'>
+                        <img src='${Poster}' class='card-img'
+                            onerror= "this.src='./images/no-image.png'"/>
+                    </div>
+                    <div class='card-detail-container'>
+                        <div class='top-row'>
+                            <h2 class='card-title'>${Title}</h2>
+                            <p class='card-rating'><i class="fa-solid fa-star"></i><span>${imdbRating}</span></p>
+                            <button class='watchlist-btn'><i class="fa-solid fa-circle-plus"></i><span>Watchlist</span></button>
+                        </div>
+                        <div class='second-row'>
+                            <p class='card-genre'>${Genre}</p>
+                            <p class='card-year'>Released in ${Year}</p>
+                            <p class='card-runtime'>${Runtime}</p>
+                        </div>
+                        <div class='third-row'>
+                            ${Plot.slice(0, 171)}
+                            ... Read More
+                        </div>
+                    </div>
+                </div>
+        `
+
+
+    }
+    // Since currentPageSearchResultArr is a shallow copy
+    // Both currentPageSearchResultArr and currentPageSearchResultArr will have its object content changed
+
+    document.querySelector('.content-container').innerHTML = htmlStr
+    
+}

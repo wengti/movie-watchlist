@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <meta name='viewport' content='width=device-width, initial-scale=1.0' />
+        <title>A movie watchlist!</title>
+        <link rel='stylesheet' href='./index.css' />
+
+        <!-- Font -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Funnel+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+
+        <!-- Font Awesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css" 
+        integrity="sha512-2SwdPD6INVrV/lHTZbO2nodKhrnDdJK9/kg2XD1r9uGqPo1cUbujc+IYdlYdEErWNu69gVcYgdxlmVmzTWnetw==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+        
+    </head>
+
+    <body>
+        <header>
+            <div class='container header-container'>
+                <h1>Find your film</h1>
+                <a href='#'>My Watchlist</a>
+            </div>
+        </header>
+        <main>
+            <form class='container search-container' id='search-form'>
+                <div class='magnifying-glass-container'>
+                    <i class="fa-solid fa-magnifying-glass "></i>
+                </div>
+                <input type='text' name='search-name' id='search-name-input'
+                    class='search-name-input' placeholder='Search for a movie'/>
+                <button type='submit' id='search-submit-btn' class='search-submit-btn'>Search</button>
+            </form>
+
+            <section class='container content-container'>
+                <div class='film-outer-container'>
+                    <div class='film-container'>
+                        <i class="fa-solid fa-film"></i>
+                    </div>
+                    <p class='hint-message'>Start Exploring</p>
+                </div>
+            </section>
+        </main>
+
+        <script src='./index.js' type='module'></script>
+    </body>
+</html>
