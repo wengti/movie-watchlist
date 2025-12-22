@@ -8,6 +8,13 @@ const searchForm = document.getElementById('search-form')
 const contentContainer = document.querySelector('.content-container')
 
 
+document.addEventListener('click', function(event){
+    if (event.target.dataset.imdb){
+        handleReadMore(event.target.dataset.imdb)
+    }
+})
+
+
 searchForm.addEventListener('submit', handleSearchSubmit)
 
 async function handleSearchSubmit(event){
@@ -129,6 +136,18 @@ async function renderPage(pageIdx=1){
 
         let {Title, Year, imdbID, Type, Poster, Runtime, Genre, Plot, imdbRating} = item
 
+        let thirdRowContent = ''
+        if(Plot.length > 170){
+            thirdRowContent = `
+                ${Plot.slice(0, 171)}
+                <span class='read-more' id='readMore${imdbID}' data-imdb=${imdbID}>... Read More<span>
+            `
+        } else {
+            thirdRowContent = `
+                ${Plot}
+            `
+        }
+        
 
         htmlStr += `
             <div class='card-container'>
@@ -148,8 +167,7 @@ async function renderPage(pageIdx=1){
                             <p class='card-runtime'>${Runtime}</p>
                         </div>
                         <div class='third-row'>
-                            ${Plot.slice(0, 171)}
-                            ... Read More
+                            ${thirdRowContent}
                         </div>
                     </div>
                 </div>
@@ -162,4 +180,12 @@ async function renderPage(pageIdx=1){
 
     document.querySelector('.content-container').innerHTML = htmlStr
     
+}
+
+
+function handleReadMore(imdbID){
+    const selectedMovie = basicSearchResultArr.filter(movie=>movie.imdbID === imdbID)[0]
+    document.getElementById(`readMore${imdbID}`).parentElement.textContent = `
+        ${selectedMovie.Plot}
+    `
 }
