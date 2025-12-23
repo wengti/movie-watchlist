@@ -21,53 +21,14 @@
     <body>
         <header>
             <div class='container header-container'>
-                <h1>Find your film</h1>
-                <a href='./watchlist.html' class='link-to-other-page'>My Watchlist</a>
+                <h1>My watchlist</h1>
+                <a href='./index.html' class='link-to-other-page'>Find your film</a>
             </div>
         </header>
         <main>
-            <form class='container search-container' id='search-form'>
-                <div class='magnifying-glass-container'>
-                    <i class="fa-solid fa-magnifying-glass "></i>
-                </div>
-                <input type='text' name='search-name' id='search-name-input'
-                    class='search-name-input' placeholder='Search for a movie'/>
-                <div class='filter-icon-container'>
-                    <i class="fa-solid fa-filter" id='filter-btn'></i>
-                </div>
-                <button type='submit' id='search-submit-btn' class='search-submit-btn'>Search</button>
-            </form>
+            
 
-            <div class='container outer-filter-container' id='outer-filter-container'>
-                   <p class='ft_'>Filter Search By:</p>
-
-                   <label class='fyt' for='fyi'>Year: </label>
-                   <input class='fyi' type='text' id='fyi' name='fyi'/>
-
-                   <label class='ftt' for='fti'>Type: </label>
-                   <select class='fti' id='fti' name='fti'>
-                        <option value=''></option>
-                        <option value='movie'>Movie</option>
-                        <option value='series'>Series</option>
-                        <option value='episode'>Episode</option>
-                   </select>
-
-                   <p class='st_'>Sort By:</p>
-
-                   <select class='sti' name='sti' id='sti'>
-                       <option value='year-d'>Year: New→Old</option>
-                        <option value='year-a'>Year: Old→New</option>
-                        <option value='runtime-d'>Duration: Long→Short</option>
-                        <option value='runtime-a'>Duration: Short→Long</option>
-                        <option value='rating-d'>Rating: High→Low</option>
-                        <option value='rating-a'>Rating: Low→High</option>
-                   </select>
-
-                   <button class='stb' type='button' id='sort-btn'>Sort</button>
-                   
-                </div>
-
-            <section class='container content-container'>
+            <section class='container content-container watchlist-content-container'>
                 <div class='film-outer-container'>
                     <div class='film-container'>
                         <i class="fa-solid fa-film"></i>
@@ -98,5 +59,6 @@
         </main>
 
         <script src='./index.js' type='module'></script>
+        <script src='./watchlist.js' type='module'></script>
     </body>
 </html>

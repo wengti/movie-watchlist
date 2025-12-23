@@ -16,6 +16,10 @@ const contentContainer = document.querySelector('.content-container')
 const navigationBtnArr = document.querySelectorAll('.navigation-btn')
 const outerFilterContainer = document.getElementById('outer-filter-container')
 
+let myWatchlist = []
+if(localStorage.getItem('myWatchlist')){
+    myWatchlist = JSON.parse(localStorage.getItem('myWatchlist'))
+}
 
 
 document.addEventListener('click', function(event){
@@ -223,6 +227,20 @@ async function renderPage(pageIdx=1){
                 `
             }
             
+            
+            let watchlistIcon = ``
+            if(myWatchlist.filter(watchlistedFilm => watchlistedFilm.imdbID === imdbID).length > 0){
+                watchlistIcon = `
+                <i class="fa-solid fa-check"></i>
+                <span>Watchlisted</span>
+                `
+            } else {
+                watchlistIcon = `
+                <i class="fa-solid fa-circle-plus"></i>
+                <span>Watchlist</span>
+                `
+            }
+
 
             htmlStr += `
                 <div class='card-container'>
@@ -234,7 +252,9 @@ async function renderPage(pageIdx=1){
                         <div class='top-row'>
                             <h2 class='card-title'>${Title}</h2>
                             <p class='card-rating'><i class="fa-solid fa-star"></i><span>${imdbRating}</span></p>
-                            <button class='watchlist-btn'><i class="fa-solid fa-circle-plus"></i><span>Watchlist</span></button>
+                            <button class='watchlist-btn' data-film-id='${imdbID}'>
+                                ${watchlistIcon}
+                            </button>
                         </div>
                         <div class='second-row'>
                             <p class='card-genre'>${Genre}</p>
@@ -248,7 +268,18 @@ async function renderPage(pageIdx=1){
                 </div>
             `
         }
+
         document.querySelector('.content-container').innerHTML = htmlStr
+
+        document.querySelectorAll('.watchlist-btn').forEach( 
+            btn => {
+                console.log('Enter')
+                btn.addEventListener('click', function(event){
+                    console.log('added')
+                    handleWatchlistClick(event)
+                })
+            }
+        )
         // Since currentPageSearchResultArr is a shallow copy
         // Both currentPageSearchResultArr and currentPageSearchResultArr will have its object content changed
     } catch(err){
@@ -376,14 +407,39 @@ async function handleSort(){
 
             currentPageIdx = 1
             renderPage(currentPageIdx)
-            
+    
         }
     } catch(err){
         displayError(err)
     }
 }
 
+function handleWatchlistClick(event){
+    console.log('watchlist button clicked')
+    let filmId = ''
+    if(!event.target.dataset.filmId){
+        // In case of clicking the icon instead of button
+        filmId = event.target.parentElement.dataset.filmId
+    } else {
+        filmId = event.target.dataset.filmId
+    }
 
+    const idxInWatchlist = myWatchlist.findIndex(watchlistItem => watchlistItem.imdbID === filmId)
+    console.log('In the watchlist, this film is at ' + idxInWatchlist)
+    if(idxInWatchlist !== -1){
+        myWatchlist.splice(idxInWatchlist,1)
+    } else {
+        const targetItem = basicSearchResultArr.filter(result => result.imdbID === filmId)[0]
+        myWatchlist.push(targetItem)
+    }
+
+    renderPage(currentPageIdx)
+
+    localStorage.setItem('myWatchlist', JSON.stringify(myWatchlist))
+
+    
+
+}
 
 
 
