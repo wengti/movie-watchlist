@@ -1,6 +1,6 @@
 
 
-const apiKey = '2113f875' //'1e06bc85'
+const apiKey = 'Get from OMDB'
 
 
 let basicSearchResultArr = []
@@ -58,9 +58,11 @@ document.addEventListener('click', function(event){
     
 })
 
-
 searchForm.addEventListener('submit', handleSearchSubmit)
 
+
+
+// Main functions
 async function handleSearchSubmit(event){
     event.preventDefault()
     basicSearchResultArr = []
@@ -422,6 +424,12 @@ function handleWatchlistClick(event){
     localStorage.setItem('myWatchlist', JSON.stringify(myWatchlist))
 }
 
+function handleReadMore(imdbID){
+    const selectedMovie = basicSearchResultArr.filter(movie=>movie.imdbID === imdbID)[0]
+    document.getElementById(`readMore${imdbID}`).parentElement.textContent = `
+        ${selectedMovie.Plot}
+    `
+}
 
 
 function getNumberFromText(entry){
@@ -435,12 +443,7 @@ function getNumberFromText(entry){
 }
 
 
-function handleReadMore(imdbID){
-    const selectedMovie = basicSearchResultArr.filter(movie=>movie.imdbID === imdbID)[0]
-    document.getElementById(`readMore${imdbID}`).parentElement.textContent = `
-        ${selectedMovie.Plot}
-    `
-}
+
 
 function displayError(err){
     contentContainer.innerHTML = `

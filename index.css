@@ -8,10 +8,7 @@ body {
     margin: 0;
     font-family: 'Funnel Sans', sans-serif;
     color: black;
-    /* display: flex;
-    flex-direction: column; */
     min-height: 100vh;
-    /* position: relative; */
 }
 
 h1, h2, p {
@@ -190,7 +187,6 @@ main{
 
 /*  Content */
 .content-container{
-    /* min-height: 62vh; */
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;
@@ -224,7 +220,7 @@ main{
 
 /* Card Container */
 .card-container{
-    height: auto; /*440px*/
+    height: auto; 
     border-bottom: 1px solid gray;
     display: flex;
     flex-direction: column;
@@ -319,9 +315,7 @@ main{
 }
 
 /* watchlist page */
-.watchlist-content-container{
-    /* min-height: 50vh; Override content-container */
-}
+
 
 
 
@@ -345,7 +339,7 @@ main{
 @media (min-width: 568px){
     .card-container{
         flex-direction: row;
-        height: auto; /* 280px */
+        height: auto; 
         padding: 2em 0.5em 2em 0.5em;
     }
 
