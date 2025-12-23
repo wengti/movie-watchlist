@@ -1,4 +1,5 @@
 
+
 const apiKey = '2113f875' //'1e06bc85'
 
 
@@ -166,18 +167,6 @@ function handleSearchResult(data, findTotalResponse=false){
 
 }
 
-function displayError(err){
-    contentContainer.innerHTML = `
-        <div class='film-outer-container'>
-            <div class='film-container'>
-                <i class="fa-solid fa-film"></i>
-            </div>
-            <p class='hint-message'>${err}</p>
-        </div>
-    `
-}
-
-
 
 async function renderPage(pageIdx=1){
 
@@ -306,12 +295,7 @@ async function renderPage(pageIdx=1){
 }
 
 
-function handleReadMore(imdbID){
-    const selectedMovie = basicSearchResultArr.filter(movie=>movie.imdbID === imdbID)[0]
-    document.getElementById(`readMore${imdbID}`).parentElement.textContent = `
-        ${selectedMovie.Plot}
-    `
-}
+
 
 async function handleSort(){
     try{
@@ -436,9 +420,6 @@ function handleWatchlistClick(event){
     renderPage(currentPageIdx)
 
     localStorage.setItem('myWatchlist', JSON.stringify(myWatchlist))
-
-    
-
 }
 
 
@@ -451,4 +432,23 @@ function getNumberFromText(entry){
         }
     }
     return Number(temp)
+}
+
+
+function handleReadMore(imdbID){
+    const selectedMovie = basicSearchResultArr.filter(movie=>movie.imdbID === imdbID)[0]
+    document.getElementById(`readMore${imdbID}`).parentElement.textContent = `
+        ${selectedMovie.Plot}
+    `
+}
+
+function displayError(err){
+    contentContainer.innerHTML = `
+        <div class='film-outer-container'>
+            <div class='film-container'>
+                <i class="fa-solid fa-film"></i>
+            </div>
+            <p class='hint-message'>${err}</p>
+        </div>
+    `
 }
