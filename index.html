@@ -36,27 +36,36 @@
                     <i class="fa-solid fa-filter" id='filter-btn'></i>
                 </div>
                 <button type='submit' id='search-submit-btn' class='search-submit-btn'>Search</button>
-            
-                <div class='outer-filter-container' id='outer-filter-container'>
-                   <p class='ft_'>Filter By:</p>
-                   <label class='fyt'>Year: </label>
-                   <input class='fyi' type='text'/>
-                   <label class='ftt'>Type: </label>
-                   <select class='fti'>
+            </form>
+
+            <div class='container outer-filter-container' id='outer-filter-container'>
+                   <p class='ft_'>Filter Search By:</p>
+
+                   <label class='fyt' for='fyi'>Year: </label>
+                   <input class='fyi' type='text' id='fyi' name='fyi'/>
+
+                   <label class='ftt' for='fti'>Type: </label>
+                   <select class='fti' id='fti' name='fti'>
+                        <option value=''></option>
                         <option value='movie'>Movie</option>
                         <option value='series'>Series</option>
                         <option value='episode'>Episode</option>
                    </select>
+
                    <p class='st_'>Sort By:</p>
-                   <select class='sti'>
-                        <option value='movie'>Movie</option>
-                        <option value='series'>Series</option>
-                        <option value='episode'>Episode</option>
+
+                   <select class='sti' name='sti' id='sti'>
+                       <option value='year-d'>Year: New→Old</option>
+                        <option value='year-a'>Year: Old→New</option>
+                        <option value='runtime-d'>Duration: Long→Short</option>
+                        <option value='runtime-a'>Duration: Short→Long</option>
+                        <option value='rating-d'>Rating: High→Low</option>
+                        <option value='rating-a'>Rating: Low→High</option>
                    </select>
-                   <button class='stb' type='button'>Sort</button>
+
+                   <button class='stb' type='button' id='sort-btn'>Sort</button>
                    
                 </div>
-            </form>
 
             <section class='container content-container'>
                 <div class='film-outer-container'>

@@ -95,6 +95,7 @@ main{
     border: none;
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    font-weight: 700;
 }
 
 
@@ -102,20 +103,47 @@ main{
     text-align: left;
     z-index: 1;
     flex: 1 0 100%;
-    display: grid;
+    display: none;
     max-width: 600px;
     margin-left: auto;
     margin-right: auto;
+    align-items: center;
+    gap: 0.5em 0;
     grid-template-columns: repeat(12, 1fr);
     grid-template-areas: 
     "ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_ ft_"
     "fyt fyt fyi fyi fyi ... ftt ftt fti fti fti fti"
     "st_ st_ st_ st_ st_ st_ st_ st_ st_ st_ st_ st_"
     "sti sti sti sti sti sti sti ... stb stb stb stb";
+    color: #413E3E;
+    font-weight: 700;
+
+    button,
+    select,
+    input[type='text']{
+        color: #413E3E;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 1px solid gray;
+        height: 30px;
+        text-align: center;
+        font-weight: inherit;
+    }
+
+    button{
+        background-color: #e1e5eb;
+    }
+
+    input[type='text'],
+    select{
+        background-color: #CECACA;
+    }
+    
 }
 
 .ft_{
     grid-area: ft_;
+    background-color: white;
 }
 
 .fyt{
@@ -150,11 +178,9 @@ main{
 
 
 
-
-
 /*  Content */
 .content-container{
-    min-height: 70vh;
+    min-height: 62vh;
     display: grid;
     grid-template-columns: 1fr;
     justify-content: center;
@@ -319,6 +345,18 @@ main{
     .second-row{
         gap: 0 1em;
     }
+}
+
+@media (min-width: 992px){
+    .outer-filter-container {
+        grid-template-areas:
+        "ft_ ft_ ft_ fyt fyi fyi fyi ... ftt fti fti fti"
+        "... st_ st_ sti sti sti sti ... stb stb stb stb";
+    }
+
+    
+
+    
 }
 
 @media (min-width: 1200px){
